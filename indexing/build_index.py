@@ -3,8 +3,8 @@
 # Simple script to find all music files in a given set of directories, copy
 # their ID3 data into JSON and POST it to a Solr instance. 
 
-# Created: 
-# Author: Thomas Getgood
+# Created: Sun 29 Jan 2012
+# Author: Thomas Getgood <thomas.getgood@gmail.com>
 
 # TODO:
 # * Set up config files to hold user settings.
@@ -12,6 +12,7 @@
 # * Separate the find subprocess call into a library function for portability.
 # * Find files based on mime-type, not file extension.
 # * Add support for multiple music directories.
+# * Figure out how to get bitrate, length, size, etc. from eyeD3.
 
 import eyeD3, json, subprocess, multiprocessing, string, httplib
 
