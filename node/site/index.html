@@ -1,24 +1,18 @@
 <html>
   <head> 
+    <base href="http://localhost:8000"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
-    <script src="http://localhost:9000/jplayer"></script>
-    <script src="http://jplayer.org/js/prettify/prettify-jPlayer.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function(){
-          $("#jquery_jplayer_1").jPlayer({
-            ready: function () {
-              $(this).jPlayer("setMedia", {
-                mp3: "http://localhost:9000/test",
-              });
-            },
-            swfPath: "/js",
-            supplied: "mp3"
-          });
-      });
-    </script>
-    <link href="http://jplayer.org/css/jPlayer.css" rel="stylesheet" type="text/css">
-    <link href="http://jplayer.org/js/prettify/prettify-jPlayer.css" rel="stylesheet" type="text/css" />
-    <link href="http://jplayer.org/latest/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css" />
+    <!-- jPlayer -->
+    <script src="/jPlayer/jquery.jplayer/jquery.jplayer.js"></script>
+    <link href="/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
+    <!-- AJAX-Solr -->
+    <script src="/ajax-solr/core/Core.js"></script>
+    <script src="/ajax-solr/core/AbstractManager.js"></script>
+    <script src="/ajax-solr/managers/Manager.jquery.js"></script>
+    <script src="/ajax-solr/core/Parameter.js"></script>
+    <script src="/ajax-solr/core/ParameterStore.js"></script>
+
+    <script src="/js/semos.js"></script>
   </head> 
   <body>
     <div id="jquery_jplayer_1" class="jp-jplayer"></div>

@@ -1,6 +1,6 @@
-[submodule "node/jPlayer"]
-	path = node/jPlayer
-	url = git@github.com:happyworm/jPlayer.git
 [submodule "node/site/ajax-solr"]
 	path = node/site/ajax-solr
 	url = git@github.com:evolvingweb/ajax-solr.git
+[submodule "node/site/jPlayer"]
+	path = node/site/jPlayer
+	url = git@github.com:happyworm/jPlayer.git
