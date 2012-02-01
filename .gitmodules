@@ -4,3 +4,6 @@
 [submodule "node/site/jPlayer"]
 	path = node/site/jPlayer
 	url = git@github.com:happyworm/jPlayer.git
+[submodule "node/proxies"]
+	path = node/proxies
+	url = git@github.com:evolvingweb/node-proxies.git
