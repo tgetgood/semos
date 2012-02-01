@@ -623,9 +623,9 @@
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
 
-   <!-- <copyField source="title" dest="text"/> -->
-   <!-- <copyField source="artist" dest="text"/> -->
-   <!-- <copyField source="album" dest="text"/> -->
+   <copyField source="title" dest="text"/>
+   <copyField source="artist" dest="text"/>
+   <copyField source="album" dest="text"/>
    <!-- <copyField source="year" dest="text"/> -->
    <!-- <copyField source="label" dest="text"/> -->
    <!-- <copyField source="manu" dest="manu_exact"/> -->

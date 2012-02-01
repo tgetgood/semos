@@ -12,22 +12,26 @@
 
 TOMCAT_CONF=/etc/tomcat6
 SOLR_CONF=/etc/solr
-SOLR_HOME=/user/share/solr
+SOLR_HOME=/usr/share/solr
+CONF_DIR=`readlink -e $(dirname $0)`
 
 backup_and_link() {
-  if [ -f $2 -a ! -h $2 ]
+  if [ -h $2 ]
+  then
+    rm $2
+  elif [ -e $2 ]
   then
     mv $2 $2.bac
   fi
 
-  ln -sf $1 $2
+  ln -s $1 $2
 }
 
-backup_and_link ./solr-tomcat.xml $TOMCAT_CONF/solr-tomcat.xml
-backup_and_link ./solr-tomcat.xml $TOMCAT_CONF/Catalina/localhost/solr.xml
+backup_and_link $CONF_DIR/solr-tomcat.xml $TOMCAT_CONF/solr-tomcat.xml
+backup_and_link $CONF_DIR/solr-tomcat.xml $TOMCAT_CONF/Catalina/localhost/solr.xml
 
-backup_and_link ./tomcat.policy $SOLR_CONF/tomcat.policy
+backup_and_link $CONF_DIR/tomcat.policy $SOLR_CONF/tomcat.policy
 
-backup_and_link ./solrconfig.xml $SOLR_HOME/conf/solrconfig.xml
-backup_and_link ./schema.xml $SOLR_HOME/conf/schema.xml
+backup_and_link $CONF_DIR/solrconfig.xml $SOLR_HOME/conf/solrconfig.xml
+backup_and_link $CONF_DIR/schema.xml $SOLR_HOME/conf/schema.xml
 
