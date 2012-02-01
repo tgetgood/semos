@@ -1,7 +1,7 @@
 <html>
-  <head> 
-    <base href="http://localhost:8000"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> 
+  <head>
+    <base href="http://chip:8000"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <!-- jPlayer -->
     <script src="/jPlayer/jquery.jplayer/jquery.jplayer.js"></script>
     <link href="/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
@@ -11,10 +11,14 @@
     <script src="/ajax-solr/managers/Manager.jquery.js"></script>
     <script src="/ajax-solr/core/Parameter.js"></script>
     <script src="/ajax-solr/core/ParameterStore.js"></script>
+    <script src="/ajax-solr/core/AbstractWidget.js"></script>
+    <script src="/ajax-solr/core/AbstractFacetWidget.js"></script>
+    <!-- <script type="text/javascript" src="http://evolvingweb.github.com/ajax-solr/examples/reuters/js/reuters.theme.js"></script> -->
 
     <script src="/js/semos.js"></script>
-  </head> 
+  </head>
   <body>
+    <ul id="current-search"></ul>
     <div id="jquery_jplayer_1" class="jp-jplayer"></div>
     <div id="jp_container_1" class="jp-audio">
       <div class="jp-type-single">
@@ -55,5 +59,11 @@
         </div>
       </div>
     </div>
-
-  </html> 
+    <div id="search">
+      <input type="text" id="query" name="query"/>
+    </div>
+    <div class="right">
+      <div id="songs"></div>
+      <span id="more_link"></span>
+    </div>
+  </html>
