@@ -8,22 +8,39 @@ jQuery(function($) {
     swfPath: "/jPlayer/jquery.jplayer/",
     supplied: "mp3"
   });
-  
 
-  // Callback to change current song.
+  // Set up playlist add-on for jPlayer.
 
-  var setSong = function(elem, link) {
-    console.log(elem);
-    $("#jquery_jplayer_1").jPlayer("setMedia",
-      {
-        mp3: elem,
-      });
-    $("#jquery_jplayer_1").jPlayer("play");
+  var myPlaylist = new jPlayerPlaylist({
+    jPlayer: "#jquery_jplayer_1",
+    cssSelectorAncestor: "#jp_container_1"
+    },
+    [], // <-- Insert songs here.
+    {
+      playlistOptions: {
+        enableRemoveControls: true
+    },
+    swfPath: "/jPlayer/jquery.jplayer/",
+    supplied: "mp3"
+  });
+
+  var addSong = function(elem, link) {
+    myPlaylist.add({
+      title: elem.title,
+      artist: elem.artist,
+      mp3: elem.path
+    });
+
+    // $("#jquery_jplayer_1").jPlayer("setMedia",
+    //   {
+    //     mp3: elem,
+    //   });
+    // $("#jquery_jplayer_1").jPlayer("play");
   };
 
   // ==========================================================================
 
-  // Extend AJAX-Solr
+  // Define display widgets
   //
   // This will need it's own set of files eventually.
 
@@ -38,12 +55,18 @@ jQuery(function($) {
   });
 
   AjaxSolr.TextWidget = AjaxSolr.AbstractFacetWidget.extend({
+    currentSearch: '',
     init: function () {
       var self = this;
       $(this.target).find('input').bind('keydown', function(e) {
         if (e.which == 13) {
           var value = $(this).val();
           if (value && self.add(value)) {
+            if (self.currentSearch !== '') {
+              // A new search that doesn't reset the old one is unintuitive.
+              self.remove(self.currentSearch);
+            }
+            self.currentSearch = value;
             self.manager.doRequest(0);
           }
         }
@@ -91,6 +114,39 @@ jQuery(function($) {
     }
   });
 
+  AjaxSolr.TagCloudWidget = AjaxSolr.AbstractFacetWidget.extend({
+    afterRequest: function () {
+      if (this.manager.response.facet_counts.facet_fields[this.field] === undefined) {
+        $(this.target).html(AjaxSolr.theme('no_items_found'));
+        return;
+      }
+
+      var maxCount = 0;
+      var objectedItems = [];
+      var counts = this.manager.response.facet_counts.facet_fields[this.field];
+      for (var i = 0; i < counts.length; i+=2) {
+        var facet = counts[i]
+        var count = parseInt(counts[i+1]);
+        if (count > maxCount) {
+          maxCount = count;
+        }
+        objectedItems.push({ facet: facet, count: count });
+      }
+      objectedItems.sort(function (a, b) {
+        return a.facet < b.facet ? -1 : 1;
+      });
+
+      var self = this;
+      $(this.target).empty();
+      for (var i = 0, l = objectedItems.length; i < l; i++) {
+        var facet = objectedItems[i].facet;
+        console.log(facet);
+        $(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
+      }
+    }
+  });
+
+
   // ==========================================================================
 
   // Define themes
@@ -99,7 +155,7 @@ jQuery(function($) {
     var output = $('<a class="search-result" href="#"/>').text(
       elem.title + ': ' + elem.artist + ': ' + elem.album
     ).click(function(x) {
-      setSong(elem.path, x)
+      addSong(elem, x)
     });
 
     return $('<li/>').append(output);
@@ -112,14 +168,18 @@ jQuery(function($) {
       output.append(links[i]);
       $(elem).append(output);
     }
-  }
+  };
+
+  AjaxSolr.theme.prototype.tag = function (value, weight, handler) {
+    return $('<a href="#" class="tagcloud_item"/>').text(value).addClass('tagcloud_size_' + weight).click(handler);
+  };
 
   // ==========================================================================
 
   // Setup AJAX-Solr
 
   Manager = new AjaxSolr.Manager({
-    solrUrl: 'http://localhost:8080/solr/'
+    solrUrl: 'http://chip:8008/solr/'
   });
 
   Manager.addWidget(new AjaxSolr.TextWidget({
@@ -139,6 +199,12 @@ jQuery(function($) {
     target: '#current-search'
   }));
 
+  Manager.addWidget(new AjaxSolr.TagCloudWidget({
+    id: 'genre-cloud',
+    target: '#genre-select',
+    field: 'genre'
+  }));
+
   // ==========================================================================
 
   // And go
@@ -148,7 +214,7 @@ jQuery(function($) {
   Manager.store.addByValue('q', '*:*');
   var params = {
     facet: true,
-    'facet.field': [ 'title', 'album', 'artist' ],
+    'facet.field': [ 'title', 'album', 'artist', 'genre' ],
     'facet.limit': 20,
     'facet.mincount': 1,
     'f.topics.facet.limit': 50
