@@ -1,4 +1,4 @@
-{
+module.exports = {
   solr: {
     host: 'solr.example.com',
     port: 8080,

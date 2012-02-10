@@ -1,3 +1,4 @@
 # Keep domains and whatnot private
-globalConfig.json
+clientConfig.json
+serverConfig.json
 
