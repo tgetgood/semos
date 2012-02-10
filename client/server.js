@@ -11,7 +11,7 @@ var helpers = require('../lib/server-helpers.js');
 // TODO: Is this really the best way to make this secure?
 // It is fairly secure, but not very maintainable.
 // Provide access to files in the following dirs only.
-var validPaths = /^\/index\.html|^\/ajax-solr\/|^\/jPlayer\/|^\/js\/|^\/$/;
+var validPaths = /^\/index\.html$|^\/clientConfig\.js$|^\/ajax-solr\/|^\/jPlayer\/|^\/js\/|^\/$/;
 validPaths.compile(validPaths);
 
 var server = http.createServer(function (req, res) {
