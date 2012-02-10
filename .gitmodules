@@ -1,9 +1,9 @@
-[submodule "node/site/ajax-solr"]
-	path = node/site/ajax-solr
-	url = git@github.com:evolvingweb/ajax-solr.git
-[submodule "node/site/jPlayer"]
-	path = node/site/jPlayer
+[submodule "client/jPlayer"]
+	path = client/jPlayer
 	url = git@github.com:happyworm/jPlayer.git
-[submodule "node/proxies"]
-	path = node/proxies
+[submodule "servers/search/node-proxies"]
+	path = servers/search/node-proxies
 	url = git@github.com:evolvingweb/node-proxies.git
+[submodule "client/ajax-solr"]
+	path = client/ajax-solr
+	url = git@github.com:evolvingweb/ajax-solr.git

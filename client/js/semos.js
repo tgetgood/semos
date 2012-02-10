@@ -30,19 +30,13 @@ jQuery(function($) {
       artist: elem.artist,
       mp3: elem.path
     });
-
-    // $("#jquery_jplayer_1").jPlayer("setMedia",
-    //   {
-    //     mp3: elem,
-    //   });
-    // $("#jquery_jplayer_1").jPlayer("play");
   };
 
   // ==========================================================================
 
   // Define display widgets
   //
-  // This will need it's own set of files eventually.
+  // This will need its own set of files eventually.
 
   AjaxSolr.ResultWidget = AjaxSolr.AbstractWidget.extend({
     afterRequest: function () {
