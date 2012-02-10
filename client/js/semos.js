@@ -172,8 +172,15 @@ jQuery(function($) {
 
   // Setup AJAX-Solr
 
+  var urlBase = Semos.config.solr.proxy;
+
+  if (urlBase === undefined) {
+    // Using Solr without a proxy. Too bad.
+    urlBase = Semos.config.solr;
+  }
+
   Manager = new AjaxSolr.Manager({
-    solrUrl: 'http://chip:8008/solr/'
+    solrUrl: 'http://' + urlBase.host + ':' + urlBase.port + urlBase.path
   });
 
   Manager.addWidget(new AjaxSolr.TextWidget({

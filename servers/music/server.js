@@ -4,26 +4,24 @@ var querystring = require('querystring');
 var helpers = require('../../lib/server-helpers.js');
 var cron = require('cron');
 var spawn = require('child_process').spawn;
+var fs = require('fs');
 
 
-var localIP = '127.0.0.1';
-var localPort = 31337;
-var solrHost = 'localhost';
-var solrPort = 8080;
-var musicDir = '';
-var fileTypes = [];
+// Config
+var config = require('../serverConfig'); 
+var localIP = config.music.host;
+var localPort = config.music.port;
+var musicDir = config.music.musicDir;
+var fileTypes = config.music.fileTypes;
 
-// TODO: Add processing here for reading in config.
+var solr = config.solr.proxy;
+if (solr === undefined) {
+  // Update Solr directly if they really want.
+  solr = config.solr;
+}
 
-var checkIP = function () {
-  http.request({host: 'whatismyip.org'}, function(res) {
-    res.on('data', function(chunk) {
-      localIP = chunk.toString();
-    });
-  }).on('error', function(e) {
-    console.log(e);
-  }).end();
-};
+var solrHost = solr.host;
+var solrPort = solr.port;
 
 
 // TODO: Should probably redo this in node (if feasible) to reduce dependencies.
@@ -36,7 +34,7 @@ var reindex = function() {
             solrPort,
             musicDir
   ];
-  pyArgs += fileTypes;
+  pyArgs.concat(fileTypes);
 
 
   var script = spawn('python', pyArgs, {});
@@ -51,11 +49,8 @@ var reindex = function() {
   });
 };
 
-// TODO: Only necessary for dynamic IPs, and not every 15 minutes.
-// If this isn't changed it was forgotten.
-cron.cronJob('* */15 * * * *', checkIP);
 
-cron.cronJob('* */15 * * * *', reindex);
+cron.CronJob('* */15 * * * *', reindex);
 
 
 var server = http.createServer(function(req, res) {

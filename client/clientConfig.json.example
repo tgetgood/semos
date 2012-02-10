@@ -1,14 +1,14 @@
 Semos = {}
 
 Semos.config = {
-  solr: {
-    host: 'solr.example.com',
-    port: 8080,
-    path: '/solr/',
-    proxy: {
-      host: 'proxy.example.com',
-      port: 8008,
-      path: '/solr/'
+  "solr": {
+    "host": "solr.example.com",
+    "port": 8080,
+    "path": "/solr/",
+    "proxy": {
+      "host": "proxy.example.com",
+      "port": 8008,
+      "path": "/solr/"
     }
   }
 }

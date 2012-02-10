@@ -1,20 +1,20 @@
-module.exports = {
-  solr: {
-    host: 'solr.example.com',
-    port: 8080,
-    proxy: {
-      host: 'proxy.example.com',
-      port: 8008
+{
+  "solr": {
+    "host": "solr.example.com",
+    "port": 8080,
+    "proxy": {
+      "host": "proxy.example.com",
+      "port": 8008
     }
   },
-  music: {
-    host: 'music.example.com',
-    port: 31337,
-    musicDir: '/path/to/music/root',
-    fileTypes: [
-      'mp3',
-      'ogg',
-      'flac'
+  "music": {
+    "host": "music.example.com",
+    "port": 31337,
+    "musicDir": "/path/to/music/root",
+    "fileTypes": [
+      "mp3",
+      "ogg",
+      "flac"
     ]
   }
 }
