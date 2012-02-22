@@ -46,7 +46,7 @@ def send_to_index(data, host, port):
 
   headers = {"Content-type":"application/json"}
 
-  req = httplib.HTTPConnection(host, port)
+  req = httplib.HTTPConnection('127.0.0.1', port)
   req.request("POST", url="/solr/update/json?commit=true", body = data, headers = headers)
   
 ###### send_to_index
@@ -75,12 +75,15 @@ if __name__ == '__main__':
   files = subprocess.check_output(['find', MUSIC_DIR] + to_find)
   files = string.split(files, sep='\n')
 
-  send_to_index(jsonify_tags(files, HOST, PORT), SOLR_HOST, SOLR_PORT)
+  #send_to_index(jsonify_tags(files, HOST, PORT), SOLR_HOST, SOLR_PORT)
 
-  #pool = multiprocessing.Pool(6)
+  # TODO: Why does this not do anything in parallel. Why is python so finicky
+  # about multiprocessing?
 
-  #for i in range(0, len(files), 200):
-  #  pool.apply_async(send_to_index, (jsonify_tags(files[i:i+200], HOST, PORT), SOLR_HOST, SOLR_PORT))
+  pool = multiprocessing.Pool(6)
+
+  for i in range(0, len(files), 100):
+    pool.apply_async(send_to_index, (jsonify_tags(files[i:i+100], HOST, PORT), SOLR_HOST, SOLR_PORT))
 
 # This should be good practice, no?
   #pool.close()
