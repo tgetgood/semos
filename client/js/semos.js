@@ -34,6 +34,17 @@ jQuery(function($) {
 
   // ==========================================================================
 
+  // Configure infinite scroll
+
+  $('ul#songs').infinitescroll({
+    navSelector: '#pager',
+    nextSelector: '#pager .pager-next',
+    itemSelector: '#songs li',
+    debug: true
+  });
+
+  // ==========================================================================
+
   // Define display widgets
   //
   // This will need its own set of files eventually.
@@ -134,7 +145,6 @@ jQuery(function($) {
       $(this.target).empty();
       for (var i = 0, l = objectedItems.length; i < l; i++) {
         var facet = objectedItems[i].facet;
-        console.log(facet);
         $(this.target).append(AjaxSolr.theme('tag', facet, parseInt(objectedItems[i].count / maxCount * 10), self.clickHandler(facet)));
       }
     }
@@ -166,6 +176,40 @@ jQuery(function($) {
 
   AjaxSolr.theme.prototype.tag = function (value, weight, handler) {
     return $('<a href="#" class="tagcloud_item"/>').text(value).addClass('tagcloud_size_' + weight).click(handler);
+  };
+
+  /**
+   * Taken from http://evolvingweb.github.com/ajax-solr/examples/reuters/index.3.html
+   * ajaxsolr.theme.js
+   *
+   * Appends the given items to the given list, optionally inserting a separator
+   * between the items in the list.
+   *
+   * @param {String} list The list to append items to.
+   * @param {Array} items The list of items to append to the list.
+   * @param {String} [separator] A string to add between the items.
+   * @todo Return HTML rather than modify the DOM directly.
+   */
+  AjaxSolr.theme.prototype.list_items = function (list, items, separator) {
+    jQuery(list).empty();
+    for (var i = 0, l = items.length; i < l; i++) {
+      var li = jQuery('<li/>');
+      if (AjaxSolr.isArray(items[i])) {
+        for (var j = 0, m = items[i].length; j < m; j++) {
+          if (separator && j > 0) {
+            li.append(separator);
+          }
+          li.append(items[i][j]);
+        }
+      }
+      else {
+        if (separator && i > 0) {
+          li.append(separator);
+        }
+        li.append(items[i]);
+      }
+      jQuery(list).append(li);
+    }
   };
 
   // ==========================================================================
@@ -206,6 +250,17 @@ jQuery(function($) {
     field: 'genre'
   }));
 
+  Manager.addWidget(new AjaxSolr.PagerWidget({
+    id: 'pager',
+    target: '#pager',
+    prevLabel: '&lt;',
+    nextLabel: '&gt;',
+    innerWindow: 1,
+    renderHeader: function (perPage, offset, total) {
+      $('#pager-header').html($('<span/>').text('displaying ' + Math.min(total, offset + 1) + ' to ' + Math.min(total, offset + perPage) + ' of ' + total));
+    }
+  }));
+
   // ==========================================================================
 
   // And go
@@ -214,6 +269,7 @@ jQuery(function($) {
 
   Manager.store.addByValue('q', '*:*');
   var params = {
+    rows: '50',
     facet: true,
     'facet.field': [ 'title', 'album', 'artist', 'genre' ],
     'facet.limit': 20,

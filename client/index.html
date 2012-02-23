@@ -15,11 +15,14 @@
     <script src="ajax-solr/core/ParameterStore.js"></script>
     <script src="ajax-solr/core/AbstractWidget.js"></script>
     <script src="ajax-solr/core/AbstractFacetWidget.js"></script>
+    <script type="text/javascript" src="ajax-solr/widgets/jquery/PagerWidget.js"></script>
+    <script src="https://raw.github.com/paulirish/infinite-scroll/master/jquery.infinitescroll.js"></script>
     <link href="http://evolvingweb.github.com/ajax-solr/examples/reuters/css/reuters.css" rel="stylesheet" type="text/css">
     <!-- Custom code -->
     <script src="js/semos.js"></script>
   </head>
   <body>
+    <span id="left"  style="float:left;width=50%">
     <div id="jp_container_1" class="jp-video jp-video-270p">
       <div class="jp-type-playlist">
         <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -67,16 +70,21 @@
         </div>
       </div>
     </div>
+  </span>
 
-    <div class="left">
+  <span id="right" style="float:right;width:500px">
+    <div class="music" >
       <ul id="current-search"></ul>
-      <div class="tagcloud" id="genre-select"></div>
+      <!-- <div class="tagcloud" id="genre-select" style="width:40%"></div> -->
       <div id="search">
         <input type="text" id="query" name="query"/>
       </div>
-      <ul id="songs"></ul>
-      <span id="more_link"></span>
+      <div style="height:10px"></div>
+      <ul id="songs" style="height:80%;overflow-y:scroll"></ul>
+      <div id="pager-wrapper">
+        <ul id="pager"></ul>
+      </div>
     </div>
-    <div class="right"></div>
+  </span>
   </body>
 </html>
