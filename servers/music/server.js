@@ -50,7 +50,8 @@ var reindex = function() {
 };
 
 
-cron.CronJob('* */15 * * * *', reindex);
+// TODO: Why does this run so often?
+// cron.CronJob('* */15 * * * *', reindex);
 
 
 var server = http.createServer(function(req, res) {
