@@ -20,7 +20,7 @@ Overview
 The player consists of a search server, a music server, and a web client that can either be run locally, or serverd up via the client server. 
 
 
-## Music server/indexer
+### Music server/indexer
 
 The music server is responsible for serving up requested music files. It is also responsible for maintaining the index of music available on the host machine and updating the Solr server when this changes.
 
@@ -28,11 +28,11 @@ Automatic indexing is currently not working, so the index must be built manually
 
 The intention is to add an authentication layer so that your music is not open to the world --- unless you want it to be --- but this is not implemented yet, so be warned that by running this continuously without some sort of reverse proxy of your own, all sorts of evil things might happen to you. 
 
-## Solr server
+### Solr server
 
 The Solr server is a standard Solr deployment using the schema and configuration files shipped with this repo. I deploy Solr on Tomcat, but that's not terribly important. For the time being you'll have to convert the config files appropriately if you choose a different serverlet container. See the installation section for instructions on deploying Solr. 
 
-## Web client
+### Web client
 
 Bare bones client to search and play music. Still needs lots of work. The core components are jPlayer to play the music and the AJAX-Solr Javascript library to interact with Solr for search.
 
