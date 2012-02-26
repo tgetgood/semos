@@ -3,55 +3,57 @@ Semos
 
 Peer to peer distibuted music player.
 
-Uses Apache Solr to create a searchable index of music files across any number of computers. Combined with a lightweight file server on each indexed machine and a web client, you get a music player. 
+Uses Apache Solr to create a searchable index of music files across any number of computers. Combined with a lightweight file server on each indexed machine and a web client, you can play your music --- regardless of where it is --- from any computer.
 
-Created out of exasperation at not remembering which music was on my desktop, laptop, at home, at work, etc.. 
+Created out of exasperation at not remembering which music was on my desktop, laptop, at home, at work, etc..
 
 Info
 ----
 
-Author: Thomas Getgood <thomas.getgood@gmail.com>
+Author: Thomas Getgood (thomas.getgood@gmail.com)
+
 Version: I hesitate to even call it an alpha, but works in some ways.
+
 Last edit: Sun, 26 Feb 2012
 
 Overview
 --------
 
-The player consists of a search server, a music server, and a web client that can either be run locally, or serverd up via the client server. 
+The player consists of a search server, a music server, and a web client that can either be run locally, or serverd up via the client server.
 
 
 ### Music server/indexer
 
 The music server is responsible for serving up requested music files. It is also responsible for maintaining the index of music available on the host machine and updating the Solr server when this changes.
 
-Automatic indexing is currently not working, so the index must be built manually. See `server/music/scripts/build_index.py` for usage instructions. Will probably only run on Unix/Linux, possibly Mac OS. I'm getting there. 
+Automatic indexing is currently not working, so the index must be built manually. See `server/music/scripts/build_index.py` for usage instructions. Will probably only run on Unix/Linux, possibly Mac OS. I'm getting there.
 
-The intention is to add an authentication layer so that your music is not open to the world --- unless you want it to be --- but this is not implemented yet, so be warned that by running this continuously without some sort of reverse proxy of your own, all sorts of evil things might happen to you. 
+The intention is to add an authentication layer so that your music is not open to the world --- unless you want it to be --- but this is not implemented yet, so be warned that by running this continuously without some sort of reverse proxy of your own, all sorts of evil things might happen to you.
 
 ### Solr server
 
-The Solr server is a standard Solr deployment using the schema and configuration files shipped with this repo. I deploy Solr on Tomcat, but that's not terribly important. For the time being you'll have to convert the config files appropriately if you choose a different serverlet container. See the installation section for instructions on deploying Solr. 
+The Solr server is a standard Solr deployment using the schema and configuration files shipped with this repo. I deploy Solr on Tomcat, but that's not terribly important. For the time being you'll have to convert the config files appropriately if you choose a different serverlet container. See the installation section for instructions on deploying Solr.
 
 ### Web client
 
-Bare bones client to search and play music. Still needs lots of work. The core components are jPlayer to play the music and the AJAX-Solr Javascript library to interact with Solr for search.
+Bare bones client to search and play music. Still needs lots of work. The core components are [jPlayer](http://jplayer.org/) to play the music and the [AJAX-Solr](https://github.com/evolvingweb/ajax-solr/wiki) Javascript library to interact with Solr for search.
 
-jPlayer uses HTML5 audio to play the music and falls back on flash if that fails. HTML5 audio still has it's problems, so the experience will vary. 
+jPlayer uses HTML5 audio to play the music and falls back on flash if that fails. HTML5 audio still has it's problems, so the experience will vary.
 
-Progressive enhancement was not a priority in the design since nothing will work without Javascript and I have no intention of changing that. 
+Progressive enhancement was not a priority in the design since nothing will work without Javascript and I have no intention of changing that.
 
-N.B. I am not a front end developer. Improvements to the client will be welcomed, and unconstructive criticism ignored. 
+N.B. I am not a front end developer. Improvements to the client will be welcomed, and unconstructive criticism ignored.
 
 Installation
 ------------
 
 Currently requires a fair bit of assembly. These instructions have only been tested on Ubuntu 10.04 but should be adaptable to any Unix-like system.
 
-Fair bit of assemply? This is utterly insane. More detail might help, but a simpler setup process is essential if anyone is to ever use this. 
+Fair bit of assemply? This is utterly insane. More detail might help, but a simpler setup process is essential if anyone is to ever use this.
 
 ### Install Solr
 
-These instructions run Solr 3.5.0 on Tomcat 6. Other versions of Solr may work and other containers definitely should, but are untested. 
+These instructions run Solr 3.5.0 on Tomcat 6. Other versions of Solr may work and other containers definitely should, but are untested.
 
 There are instructions at http://wiki.apache.org/solr/SolrTomcat, but they're very technical and I'm hoping my instructions are easier.
 
@@ -112,10 +114,10 @@ Create files at `client/clientConfig.js` and `server/serverConfig.json` based on
 
 ### Setting up the music server
 
-Run `servers/music/scripts/build_index.py` with the parameters requested. If you've left all of the defaults in the config files above and your IP is a.b.c.d then this should look like the following (provided everything is running on one machine. 
+Run `servers/music/scripts/build_index.py` with the parameters requested. If you've left all of the defaults in the config files above and your IP is a.b.c.d then this should look like the following (provided everything is running on one machine.
 
 ``` sh
-$ build_index.sh a.b.c.d 31337 a.b.c.d 8008 /path/to/music mp3 ogg flac ...
+$ build_index.sh a.b.c.d 31337 a.b.c.d 8080 /path/to/music mp3 ogg flac ...
 ```
 
 ### Running the servers
