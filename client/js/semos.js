@@ -1,3 +1,15 @@
+/**
+ * TODO:
+ *
+ * * Cache songs so for back/forward.
+ * * Key board shortcuts for play/pause/next, etc..
+ * * Title, album facets.
+ * * Infinite scroll.
+ * * play/pause/seek support on chrome 16-17 (works in 14).
+ */
+
+
+
 var Manager;
 
 jQuery(function($) {
@@ -256,9 +268,6 @@ jQuery(function($) {
     prevLabel: '&lt;',
     nextLabel: '&gt;',
     innerWindow: 1,
-    renderHeader: function (perPage, offset, total) {
-      $('#pager-header').html($('<span/>').text('displaying ' + Math.min(total, offset + 1) + ' to ' + Math.min(total, offset + perPage) + ' of ' + total));
-    }
   }));
 
   // ==========================================================================

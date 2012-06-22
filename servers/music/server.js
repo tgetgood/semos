@@ -11,7 +11,7 @@ var fs = require('fs');
 var config = require('../serverConfig'); 
 var localIP = config.music.host;
 var localPort = config.music.port;
-var musicDir = config.music.musicDir;
+var musicDirs = config.music.musicDirs;
 var fileTypes = config.music.fileTypes;
 
 var solr = config.solr.proxy;
@@ -23,35 +23,47 @@ if (solr === undefined) {
 var solrHost = solr.host;
 var solrPort = solr.port;
 
-
-// TODO: Should probably redo this in node (if feasible) to reduce dependencies.
-var reindex = function() {
-  var pyArgs = [
-            'scripts/build_index.py', 
-            localIP,
-            localPort,
-            solrHost,
-            solrPort,
-            musicDir
-  ];
-  pyArgs.concat(fileTypes);
-
-
-  var script = spawn('python', pyArgs, {});
-
-  script.on('exit', function(code) {
-    if (code === 0) {
-      console.log("Index update successful.");
-    }
-    else {
-      console.log("Index update exited with error code " + code);
-    }
-  });
-};
-
+// 
+// // TODO: Should probably redo this in node (if feasible) to reduce dependencies.
+// var reindex = function() {
+//   var pyArgs = [
+//             'scripts/build_index.py', 
+//             localIP,
+//             localPort,
+//             solrHost,
+//             solrPort,
+//             musicDir
+//   ];
+//   pyArgs.concat(fileTypes);
+// 
+// 
+//   var script = spawn('python', pyArgs, {});
+// 
+//   script.on('exit', function(code) {
+//     if (code === 0) {
+//       console.log("Index update successful.");
+//     }
+//     else {
+//       console.log("Index update exited with error code " + code);
+//     }
+//   });
+// };
+// 
 
 // TODO: Why does this run so often?
 // cron.CronJob('* */15 * * * *', reindex);
+
+var pathSafe = function(path) {
+  if (path.match(/\.\//)) {
+    return false;
+  }
+  for (var i = 0; i < musicDirs.length; i++) {
+    if (path.indexOf(musicDirs[i]) === 0) {
+      return true;
+    }
+  }
+  return false;
+}
 
 
 var server = http.createServer(function(req, res) {
@@ -59,7 +71,7 @@ var server = http.createServer(function(req, res) {
   var path = url.parse(req.url).path;
   path = querystring.unescape(path);
 
-  if (path.match(/\.\//) || path.indexOf(musicDir) !== 0) {
+  if (!pathSafe(path)) {
     helpers.forbid(req, res);
   }
   else {

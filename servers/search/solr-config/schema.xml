@@ -535,16 +535,17 @@
    <!-- My versions of fields -->
 
 
-   <field name="artist" type="text_general" indexed="true" stored="true"/>
-   <field name="album" type="text_general" indexed="true" stored="true"/>
-   <field name="genre" type="text_general" indexed="true" stored="true"/>
-   <field name="year" type="text_general" indexed="true" stored="true"/>
-   <field name="label" type="text_general" indexed="true" stored="true"/>
+   <field name="artist" type="string" indexed="true" stored="true"/>
+   <field name="album" type="string" indexed="true" stored="true"/>
+   <field name="genre" type="string" indexed="true" stored="true"/>
+   <field name="year" type="string" indexed="true" stored="true"/>
+   <field name="label" type="string" indexed="true" stored="true"/>
+   <field name="track" type="string" indexed="true" stored="true"/>
    <field name="path" type="string" indexed="true" stored="true" required="true"/>
 
    <!-- catchall field, containing all other searchable text fields (implemented
         via copyField further on in this schema  -->
-   <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   <field name="text" type="text_en" indexed="true" stored="false" multiValued="true"/>
 
    <!-- catchall text field that indexes tokens both normally and in reverse for efficient
         leading wildcard queries. -->
