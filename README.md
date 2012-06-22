@@ -12,21 +12,19 @@ Info
 
 Author: Thomas Getgood (thomas.getgood@gmail.com)
 
-Version: I hesitate to even call it an alpha, but works in some ways.
-
-Last edit: Sun, 26 Feb 2012
+Last edit: Thursday, 21 June 2012
 
 Overview
 --------
 
-The player consists of a search server, a music server, and a web client that can either be run locally, or serverd up via the client server.
+The player consists of a search server, a music server, and a web client that can either be run locally, or served up via the client server.
 
 
 ### Music server/indexer
 
 The music server is responsible for serving up requested music files. It is also responsible for maintaining the index of music available on the host machine and updating the Solr server when this changes.
 
-Automatic indexing is currently not working, so the index must be built manually. See `server/music/scripts/build_index.py` for usage instructions. Will probably only run on Unix/Linux, possibly Mac OS. I'm getting there.
+Automatic indexing is currently not working, so the index must be built manually. See `server/music/scripts/build_index.py` for usage instructions. Tested on Ubuntu 10.04, and 11.10, but should be compatible with any Unix-like operating system provided the dependencies are available. 
 
 The intention is to add an authentication layer so that your music is not open to the world --- unless you want it to be --- but this is not implemented yet, so be warned that by running this continuously without some sort of reverse proxy of your own, all sorts of evil things might happen to you.
 
@@ -42,14 +40,12 @@ jPlayer uses HTML5 audio to play the music and falls back on flash if that fails
 
 Progressive enhancement was not a priority in the design since nothing will work without Javascript and I have no intention of changing that.
 
-N.B. I am not a front end developer. Improvements to the client will be welcomed, and unconstructive criticism ignored.
+N.B. Functionality is the primary goal. The client is very simple and will likely stay that way until the underlying structure is working and stable.
 
 Installation
 ------------
 
-Currently requires a fair bit of assembly. These instructions have only been tested on Ubuntu 10.04 but should be adaptable to any Unix-like system.
-
-Fair bit of assemply? This is utterly insane. More detail might help, but a simpler setup process is essential if anyone is to ever use this.
+Currently requires a fair bit of assembly. These instructions have only been tested on Ubuntu 10.04 and 11.10, but should be adaptable to any Unix-like system. If you do so adapt, feel free to add your own instructions for different systems. 
 
 ### Install Solr
 
@@ -93,7 +89,7 @@ Install node
 $ apt-get install node
 ```
 
-I'm not sure what verison this is currently at, so you may be better off downloading node from [github](https://github.com/joyent/node) and building it yourself.
+I'm not sure what verison this is currently at, so you may be better off downloading node from [github](https://github.com/joyent/node) and building it yourself. Requires at least node 0.6.6.
 
 Install npm
 
